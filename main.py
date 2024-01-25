@@ -11,7 +11,7 @@ if __name__ == "__main__":
         polygon2 = MyPolygon(third_polygon)
 
         print("Полигон:")
-        all_coords = MyPolygon.get_all_coordinates
+        all_coords = MyPolygon.get_all_coordinates(polygon)
         print(all_coords)
 
     except ValueError as ve:
