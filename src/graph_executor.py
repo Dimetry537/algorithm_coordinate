@@ -4,11 +4,11 @@ from shapely.geometry import Point
 
 class GraphExecutor:
     def __init__(self, start_geojson, end_geojson):
-        start_data = json.loads(start_geojson)  
-        end_data = json.loads(end_geojson)
+        start_point = json.loads(start_geojson)  
+        end_point = json.loads(end_geojson)
         
-        start_coords = start_data["coordinates"]
-        end_coords = end_data["coordinates"]
+        start_coords = start_point["coordinates"]
+        end_coords = end_point["coordinates"]
         
         self.start = Point(start_coords)
         self.end = Point(end_coords)  
