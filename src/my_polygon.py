@@ -26,7 +26,7 @@ class MyPolygon:
         return lats_max, lons_max, lats_min, lons_min, area
     
     
-    def polygon_lines(self):
+    def _polygon_lines(self):
         edges = []
         for i in range(len(self._coordinates)):
             start = self._coordinates[i]
@@ -53,5 +53,6 @@ class MyPolygon:
                         intersections += 1
 
                 if intersections %2 != 0:
+                    self._coordinates.append([random_lat, random_lon])
                     yield random_lat, random_lon
                     continue
