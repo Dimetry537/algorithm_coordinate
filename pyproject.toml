@@ -6,9 +6,11 @@ authors = ["dimetry537 <maksakov1988@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-shapely = "^2.0.2"
 networkx = "^3.2.1"
 matplotlib = "^3.8.2"
+geopy = "^2.4.1"
+pylint = "^3.0.3"
+shapely = "^2.0.2"
 
 [tool.poetry.dev-dependencies]
 
