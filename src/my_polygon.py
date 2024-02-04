@@ -2,15 +2,16 @@ from shapely.geometry import LineString
 class MyPolygon:
 
     def __init__(self, polygon_data):
-        coordinates = polygon_data["coordinates"]
+        self._coordinates = polygon_data
+        edges = self._coordinates
         
-        if len(coordinates[0]) < 3:
+        if len(edges) < 3:
             raise ValueError("Недостаточно точек для построения полигона (минимум 3)")
 
-        self._coordinates = coordinates[0]
+        self._coordinates = edges
 
     
-    def _polygon_lines(self):
+    def polygon_lines(self):
         edges = []
         for i in range(len(self._coordinates)):
             start = self._coordinates[i]

@@ -1,17 +1,28 @@
 import json
-from numpy import arange
+import numpy as np
 from shapely.geometry import Point
 
 class GraphExecutor:
-    def __init__(self, start_point, end_point) -> None:
+    def __init__(self, start_point, end_point, polygon_data) -> None:
+        self.start_point = start_point
+        self.end_point = end_point
+        self.polygon_data = polygon_data
+
+
+    def max_and_min_coords(self, all_coords):
+        lats = np.fromiter((lat for coords in all_coords for lat, _ in coords), dtype=float)
+        lons = np.fromiter((lon for coords in all_coords for _, lon in coords), dtype=float)
         
-        start_coords = start_point["coordinates"]
-        end_coords = end_point["coordinates"]
-        
-        self.start = Point(start_coords)
-        self.end = Point(end_coords)
-        
-        self.grid_size = 0.5
+        min_lat = lats.min()
+        max_lat = lats.max()
+        min_lon = lons.min()
+        max_lon = lons.max()
+
+        max_bounds = [(max_lat, max_lon)]
+        min_bounds = [(min_lat, min_lon)]
+
+        return max_bounds, min_bounds
+
 
     def generate_grid(self):
         x_min = min(self.start.x, self.end.x)
@@ -19,8 +30,8 @@ class GraphExecutor:
         y_min = min(self.start.y, self.end.y) 
         y_max = max(self.start.y, self.end.y)
         
-        xs = arange(x_min, x_max + self.grid_size, self.grid_size)
-        ys = arange(y_min, y_max + self.grid_size, self.grid_size)
+        xs = np.arange(x_min, x_max + self.grid_size, self.grid_size)
+        ys = np.arange(y_min, y_max + self.grid_size, self.grid_size)
         
         vertices = [[x, y] for x in xs for y in ys]
         
