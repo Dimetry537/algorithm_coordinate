@@ -1,27 +1,22 @@
-import json
 import numpy as np
-from shapely.geometry import Point
 
 class GraphExecutor:
-    def __init__(self, start_point, end_point, polygon_data) -> None:
-        self.start_point = start_point
-        self.end_point = end_point
-        self.polygon_data = polygon_data
-
-
-    def max_and_min_coords(self, all_coords):
-        lats = np.fromiter((lat for coords in all_coords for lat, _ in coords), dtype=float)
-        lons = np.fromiter((lon for coords in all_coords for _, lon in coords), dtype=float)
+    def max_and_min_coords(self, convert_coords):
+        lats = np.fromiter((lat for coords in convert_coords for lat, _ in coords), dtype=float)
+        lons = np.fromiter((lon for coords in convert_coords for _, lon in coords), dtype=float)
         
         min_lat = lats.min()
         max_lat = lats.max()
         min_lon = lons.min()
         max_lon = lons.max()
 
-        max_bounds = [(max_lat, max_lon)]
-        min_bounds = [(min_lat, min_lon)]
+        southeast_coordinate = [(min_lat, max_lon)]
+        northeast_coordinate = [(max_lat, max_lon)]
+        northwest_coordinate = [(max_lat, min_lon)]
+        southwest_coordinate = [(min_lat, min_lon)]
 
-        return max_bounds, min_bounds
+
+        return southeast_coordinate, southwest_coordinate, northeast_coordinate, northwest_coordinate
 
 
     def generate_grid(self):
@@ -43,6 +38,18 @@ class GraphExecutor:
         vertices = [tuple(vertex) for vertex in vertices]
             
         return vertices
+    
+    def generate_coordinates(se, sw, ne, nw, step=0.1):
+        coordinates = []
+        print(se[0])
+
+        for lat in range(int(se[0] * 10), int(ne[0] * 10) + 1, int(step * 10)):
+            for lon in range(int(sw[1] * 10), int(se[1] * 10) + 1, int(step * 10)):
+                lat /= 10.0
+                lon /= 10.0
+                coordinates.append((lat, lon))
+
+        return coordinates
     
     def start_point(self):
         return self.start.coords[0]

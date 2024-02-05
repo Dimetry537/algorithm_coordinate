@@ -4,7 +4,7 @@ class JsonEncoder:
     def decode_points(self, data):
         self.data = json.loads(data)
         self.coordinates = self.data['coordinates']
-        coordinates = tuple(self.coordinates)
+        coordinates = [tuple(self.coordinates)]
         return coordinates
     
     
@@ -15,9 +15,9 @@ class JsonEncoder:
         return coordinates
     
     
-    # def encode_line_string(self, coordinates):
-    #     line_string = {
-    #         "type": "LineString",
-    #         "coordinates": coordinates
-    #     }
-    #     return self.data_encoded(line_string)
+    def encode_line_string(self, coordinates):
+        line_string = {
+            "type": "LineString",
+            "coordinates": coordinates
+        }
+        return self.data_encoded(line_string)
